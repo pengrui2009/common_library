@@ -1,14 +1,17 @@
 步骤如下:
 
-1.vscode下安装如下插件:
+1.Ubuntu下安装clangd软件
+
+sudo apt-get install clang clangd clang-format clang-tidy lldb lld gunpg-curl
+
+
+2.vscode下安装如下插件:
 
 clang-format
 
 clangd
 
-2.Ubuntu下安装clangd软件
 
-sudo apt-get install clangd
 
 3.将下面两个文件拷贝至项目
 
