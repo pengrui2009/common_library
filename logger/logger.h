@@ -16,15 +16,14 @@
 #include <memory>
 #include <sstream>
 #include <string>
-#include <string>
 #include <utility>
 
 #include <boost/log/core.hpp>
-#include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
-#include <boost/log/utility/setup/file.hpp>
-#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/utility/setup/file.hpp>
 
 // #define SENSORNAME  "sensor_flash"
 
@@ -32,10 +31,9 @@ namespace common {
 namespace logger {
 
 class Logger {
-public:
-  template<typename Func>
-  auto LogFatal(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+ public:
+  template <typename Func>
+  auto LogFatal(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_FATAL, file_name, func_name, line_no, std::forward<Func>(func));
 #else
@@ -43,57 +41,52 @@ public:
 #endif
   }
 
-  template<typename Func>
-  auto LogError(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+  template <typename Func>
+  auto LogError(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_ERROR, file_name, func_name, line_no, std::forward<Func>(func));
 #else
-    BOOST_LOG_TRIVIAL(error) << CreateLoggingMessage(file_name, func_name, line_no, func).str();    
+    BOOST_LOG_TRIVIAL(error) << CreateLoggingMessage(file_name, func_name, line_no, func).str();
 #endif
   }
 
-  template<typename Func>
-  auto LogWarn(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+  template <typename Func>
+  auto LogWarn(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_WARN, file_name, func_name, line_no, std::forward<Func>(func));
 #else
-    BOOST_LOG_TRIVIAL(warning) << CreateLoggingMessage(file_name, func_name, line_no, func).str();    
+    BOOST_LOG_TRIVIAL(warning) << CreateLoggingMessage(file_name, func_name, line_no, func).str();
 #endif
   }
 
-  template<typename Func>
-  auto LogInfo(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+  template <typename Func>
+  auto LogInfo(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_INFO, file_name, func_name, line_no, std::forward<Func>(func));
 #else
-    BOOST_LOG_TRIVIAL(info) << CreateLoggingMessage(file_name, func_name, line_no, func).str();    
+    BOOST_LOG_TRIVIAL(info) << CreateLoggingMessage(file_name, func_name, line_no, func).str();
 #endif
   }
 
-  template<typename Func>
-  auto LogDebug(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+  template <typename Func>
+  auto LogDebug(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_DEBUG, file_name, func_name, line_no, std::forward<Func>(func));
-#else 
+#else
     BOOST_LOG_TRIVIAL(debug) << CreateLoggingMessage(file_name, func_name, line_no, func).str();
 #endif
   }
 
-  template<typename Func>
-  auto LogVerbose(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept
-      -> void {
+  template <typename Func>
+  auto LogVerbose(const std::string file_name, int line_no, const std::string func_name, Func &&func) noexcept -> void {
 #ifdef ENABLE_DLT_LOGGER
     LogDltMessage(DLT_LOG_VERBOSE, file_name, func_name, line_no, std::forward<Func>(func));
-#else    
-    BOOST_LOG_TRIVIAL(trace) << CreateLoggingMessage(file_name, func_name, line_no, func).str();    
+#else
+    BOOST_LOG_TRIVIAL(trace) << CreateLoggingMessage(file_name, func_name, line_no, func).str();
 #endif
   }
 
-public:
+ public:
   // ctor
   explicit Logger(std::string context_id);
 
@@ -103,12 +96,13 @@ public:
   // dtor
   ~Logger();
 
-private:
+ private:
   void Initialize(const std::string &filename);
 
-  template<typename Func>
-  auto CreateLoggingMessage(const std::string file_name, const std::string /* func_name */, int line_no,
-                            Func &&func) noexcept -> std::stringstream {
+  template <typename Func>
+  auto CreateLoggingMessage(
+      const std::string file_name, const std::string /* func_name */, int line_no, Func &&func) noexcept
+      -> std::stringstream {
     std::stringstream msg;
     func(msg);
     msg << " [" << file_name << ":" << line_no << "]";
@@ -116,12 +110,12 @@ private:
   }
 
 #ifdef ENABLE_DLT_LOGGER
-  template<typename Func>
-  void LogDltMessage(DltLogLevelType log_level, const std::string file_name, const std::string func_name,
-                     int line_no, Func &&func) {
-
-    DLT_LOG(contxt_, log_level,
-            DLT_CSTRING(CreateLoggingMessage(file_name, func_name, line_no, std::forward<Func>(func)).str().c_str()));
+  template <typename Func>
+  void LogDltMessage(
+      DltLogLevelType log_level, const std::string file_name, const std::string func_name, int line_no, Func &&func) {
+    DLT_LOG(
+        contxt_, log_level,
+        DLT_CSTRING(CreateLoggingMessage(file_name, func_name, line_no, std::forward<Func>(func)).str().c_str()));
   }
 #endif
 
@@ -142,20 +136,17 @@ private:
 };
 
 class DiagClientLogger {
-public:
-  auto static GetDiagClientLogger() 
-    noexcept -> DiagClientLogger& {
+ public:
+  auto static GetDiagClientLogger() noexcept -> DiagClientLogger & {
     static DiagClientLogger diag_logger;
     return diag_logger;
   }
 
-  auto GetLogger() noexcept -> Logger* { return &logger_; }
+  auto GetLogger() noexcept -> Logger * { return &logger_; }
 
-private:
-  DiagClientLogger() {
+ private:
+  DiagClientLogger() {}
 
-  }
-  
   // actual logger context
   static Logger logger_;
 };
@@ -163,12 +154,23 @@ private:
 }  // namespace logger
 }  // namespace common
 
-#define LOGFATAL(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogFatal(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-#define LOGERROR(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogError(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-#define LOGWARN(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogWarn(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-#define LOGINFO(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogInfo(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-#define LOGDEBUG(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogDebug(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-#define LOGVERBOSE(str) common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogVerbose(__FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
-
+#define LOGFATAL(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogFatal( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
+#define LOGERROR(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogError( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
+#define LOGWARN(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogWarn( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
+#define LOGINFO(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogInfo( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
+#define LOGDEBUG(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogDebug( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
+#define LOGVERBOSE(str)                                                            \
+  common::logger::DiagClientLogger::GetDiagClientLogger().GetLogger()->LogVerbose( \
+      __FILE__, __LINE__, __func__, [str](std::stringstream &msg) { msg << str; })
 
 #endif  // DIAGNOSTIC_CLIENT_LIB_COMMON_LOGGER_H
