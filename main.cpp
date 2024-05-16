@@ -22,11 +22,11 @@ int main() {
   // [](std::stringstream &msg) { msg << "DiagIpClient instance creation started"; });
   std::string str = "Hello World!";
   LOGINFO(str);
-  int a[10];
+  int data[10];
 
-  a[20] = 0;
+  data[20] = 0;
   
-  if (getBufferData(a, 20) != 0)
+  if (getBufferData(data, 20) != 0)
   {
 
   }
