@@ -1,6 +1,6 @@
 代码静态检测效果示意图:
 
-![image text](https://github.com/pengrui2009/CodereviewDemo/blob/master/view/code_static_review.png "Code Static Review")
+![image text](https://github.com/pengrui2009/CodereviewDemo/blob/master/view/code_static_review.jpeg "Code Static Review")
 
 
 步骤如下:
