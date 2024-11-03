@@ -11,6 +11,8 @@
 
 #include <timer.h>
 
+namespace common {
+
 Timer::Timer(TimerHandler handler)
     : timercb_func_(handler), mode_(Timer::Mode::kOneshot), exit_requested_(false), running_(false) {
   thread_ = std::thread(&Timer::Run, this);
@@ -77,3 +79,5 @@ void Timer::Run() {
   }
   return;
 }
+
+}  // namespace common

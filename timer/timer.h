@@ -20,6 +20,8 @@
 #include <mutex>
 #include <thread>
 
+namespace common {
+
 class Timer {
  public:
   typedef std::chrono::steady_clock Clock;
@@ -76,5 +78,6 @@ class Timer {
 
   std::thread thread_;
 };
+}  // namespace common
 
 #endif

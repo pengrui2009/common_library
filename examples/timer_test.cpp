@@ -15,7 +15,7 @@
 #include <iomanip>
 
 int main() {
-  Timer timer([]() {
+  common::Timer timer([]() {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     std::time_t tt = std::chrono::system_clock::to_time_t(now);
     std::tm* ptm = std::localtime(&tt);
@@ -24,7 +24,7 @@ int main() {
 
   //   timer.StartOnce(Timer::Clock::duration(std::chrono::seconds(10)));
   //   timer.StartPeriodicDelayed(Timer::Clock::duration(std::chrono::seconds(10)));
-  timer.StartPeriodicImmediate(Timer::Clock::duration(std::chrono::seconds(10)));
+  timer.StartPeriodicImmediate(common::Timer::Clock::duration(std::chrono::seconds(10)));
   while (1) {
     sleep(100);
   }
