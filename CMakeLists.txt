@@ -24,6 +24,7 @@ add_definitions(-DBOOST_LOG_DYN_LINK)
 
 include_directories(
     logger
+    timer
 )
 
 # 
@@ -42,12 +43,27 @@ include_directories(
 # target_link_libraries(base_core
 #     pthread
 # )
+add_library(common
+    timer/timer.cpp
+)
 
 add_executable(logger_main 
     "logger/logger.cpp"
     "main.cpp"
 )
 target_link_libraries(logger_main
+    boost_system
+    boost_thread
+    pthread
+    boost_log
+    boost_log_setup
+)
+
+add_executable(timer_test 
+    "examples/timer_test.cpp"
+)
+target_link_libraries(timer_test
+    common
     boost_system
     boost_thread
     pthread
